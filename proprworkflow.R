@@ -15,7 +15,7 @@ m.clr <- aldex.clr(m.n0, conds = rep("x", ncol(m.n0)))
 m.propr <- aldex2propr(m.clr)
 
 #this function is to choose your rho cutoff of interest and subset the pairs of features satisfying the cutoff into the @pairs portion of the propr object
-m.propr <- m.propr[">", 0.7]
+m.propr <- m.propr[">", 0.7] 
 
 #to reduce the size of the object to contain only the features (aka sequence variants) which result in pairs, use the simplify function
 m.propr.simp <- simplify(m.propr)
