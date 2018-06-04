@@ -42,6 +42,7 @@ clrdiffer <- function(x) {
 clrdiff <- sapply(1, clrdiffer)
 
 #generate a numeric vector of the row names/numbers of the features that generated the pairs
+# if using the dada2 count table derived from the workflow, then as.numeric() can be removed
 taxpairs <- as.numeric(colnames(m.propr.simp@logratio))
 
 #use the row names as a call for the taxonomy column in the original original count table
