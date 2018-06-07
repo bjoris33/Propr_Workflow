@@ -15,7 +15,7 @@ m.clr <- aldex.clr(m.n0, conds = rep("x", ncol(m.n0)))
 m.propr <- aldex2propr(m.clr)
 
 #this function is to choose your rho cutoff of interest and subset the pairs of features satisfying the cutoff into the @pairs portion of the propr object
-m.propr <- m.propr[">", 0.7] 
+m.propr <- m.propr[">", 0.7]
 
 #to reduce the size of the object to contain only the features (aka sequence variants) which result in pairs, use the simplify function
 m.propr.simp <- simplify(m.propr)
@@ -52,3 +52,15 @@ final1 <- cbind(colnames(m.propr.simp@logratio[,rhopairs[,1]]), colnames(m.propr
 colnames(final1) <- c("OTU/ASV_1", "OTU/ASV_2", "Rho_Value", "CLR_Difference", "Taxonomy_of_OTU/ASV_1", "Taxonomy_of_OTU/ASV 2")
 View(final1)
 #inspect table, looking for clr differences around 5 to 6
+
+### WORK IN PROGRESS--removing the OTUs/ASVs which are technical variants from the original count table
+# this chunk is designed for the EBI pipeline which has row numbers, not names, in its count table
+#obtain rows with clr difference greater than 5 (current arbitrary cutoff)
+final5 <- final1[which(abs(as.numeric(final1[,4])) > 5),]
+#Obtaining row numbers for the technical variants
+m.neg <- as.numeric(final5[which(as.numeric(final5[,4]) < 0), 1])
+m.pos <- as.numeric(final5[which(as.numeric(final5[,4]) > 0), 2])
+#concatenating and removing redundant row numbers
+m.remove <- unique(sort(c(m.pos, m.neg)))
+#remove rows from the count table which are technical variants
+m.reduced <- m[-m.remove,]
